@@ -4,7 +4,7 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="js/function.js"></script>
 <style>
-#ryMask {
+.ryEcho-mask {
     position: absolute ;
     width: 100% ;
     height: 100% ;
@@ -15,17 +15,45 @@
     z-index: 1000 ;
 }
 
-#ryAlerm {
+.ryEcho-container
+{
+    border: 0px solid white ;
     display: inline-block ;
-    padding: 15px ;
     position: absolute ;
     top:50% ;
     left:50% ;
     z-index: 1005 ;
-    border: 1px solid black ;
-    background-color: #EEE ;
     min-width: 200px ;
+    max-width: 400px ;    
 }
+
+.ryEcho-widget {
+    padding: 15px ;
+    z-index: 1010 ;
+    border: 1px solid black ;
+    background-color: #FFF ;
+    margin-bottom: 30px ;
+    
+}
+.ryEcho-textWraper
+{
+
+    word-wrap:break-word;
+}
+
+.ryEcho-ok
+{
+    background-color: #D3FF5F ;
+}
+.ryEcho-warn
+{
+    background-color: #FCFC64 ;
+}
+.ryEcho-ng
+{
+    background-color: #F1705A ;
+}
+
 </style>
 <script>
 
@@ -43,9 +71,9 @@ $(function()
 
 function putCenter()
 {
-    var newLocation = getLocation( $('#ryAlerm'), $('#ryMask') ) ;
+    var newLocation = getLocation( $('.ryEcho-container'), $('.ryEcho-mask') ) ;
     
-    $('#ryAlerm')
+    $('.ryEcho-container')
         .css(
         {
               top: newLocation.y
@@ -71,13 +99,84 @@ function getLocation(eleIn$, eleOut$)
 }
 </script>
 先作美工版
-<div id="ryMask" class=""></div>
-<div id="ryAlerm" class="rouncConer showdow">
-<table border="2" style="width:100%">
-    <tr>
-        <td>a</td>
-        <td>b</td>
-        <td>c</td>
-    </tr>
-</table>
+<div class="ryEcho-mask"></div>
+
+<div class="ryEcho-container">
+    <div class="ryEcho-widget rouncConer showdow">
+        <span class="ryEcho-textWraper" >
+        一般。請先登入。xxxxx。xxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxx
+        </span>
+    </div>
+    <div class="ryEcho-widget rouncConer showdow ryEcho-ok">
+        <span class="ryEcho-textWraper" >
+        OK。請先登入。xxxxx。xxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxx
+        </span>
+    </div>
+    <div class="ryEcho-widget rouncConer showdow ryEcho-warn">
+        <span class="ryEcho-textWraper" >
+        warn
+        xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxx
+        </span>
+    </div>
+    <div class="ryEcho-widget rouncConer showdow ryEcho-ng">
+        <span class="ryEcho-textWraper" >
+        錯誤。請先登入。xxxxx。xxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxx
+        </span>
+    </div>
+    
 </div>
+
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+拉版<br>
+

@@ -31,8 +31,8 @@ section, article, aside, footer, header, nav, main {
     -moz-border-radius: 10px; /* Firefox */  -webkit-border-radius: 10px; /* Safari, Chrome */  -khtml-border-radius: 10px; /* Konqueror */  border-radius: 10px; /* Opera 10.50 and later (CSS3 standard) */  behavior: url(border-radius.htc); /* IE6, IE7, IE8 */
 }
 
-.showdow {
-    -moz-box-shadow: 0px 15px 20px -10px rgba(0%,0%,0%, 1), inset 0px 0px 40px -8px rgba(0%,0%,0%, 1) ;    -webkit-box-shadow: 0px 15px 20px -10px rgba(0%,0%,0%, 1), inset 0px 0px 40px -8px rgba(0%,0%,0%, 1) ;    box-shadow: 0px 15px 20px -10px rgba(0%,0%,0%, 1), inset 0px 0px 40px -8px rgba(0%,0%,0%, 1) ;
+.shadow {
+    -moz-box-shadow: 0px 15px 20px -10px rgba(0%,0%,0%, 1), inset 0px 0px 12px 0px rgba(0%,0%,0%, 1) ;    -webkit-box-shadow: 0px 15px 20px -10px rgba(0%,0%,0%, 1), inset 0px 0px 12px 0px rgba(0%,0%,0%, 1) ;    box-shadow: 0px 15px 20px -10px rgba(0%,0%,0%, 1), inset 0px 0px 12px 0px rgba(0%,0%,0%, 1) ;
 }
 
 .unblock {

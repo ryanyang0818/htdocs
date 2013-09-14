@@ -4,46 +4,166 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="js/function.js"></script>
 <script>
+;(function ( $, W, D, undefined ) {
+    var pluginName = 'ryLocation' ;
+    
+    $.pg = $[pluginName] = function() 
+    {
+        $.pg.args = Array.prototype.slice.call(arguments) ; 
+        if ($.isFunction( $.pg[ $.pg.args[0] ] ))  //$.pluginName('fn name', arguments obj) ;
+        {   
+            $.pg.mkSettings() ;
+            $.pg[ $.pg.args[0] ]() ;
+        }
+    } ;
+    
+    $.pg.defaults = 
+    {
+        testMode: true,
+        heroColor: 'brown'
+    } ;
+
+
+    //object default options
+    var defaults = 
+    {
+
+    }
+
+    function Plugin(element)
+    {  
+        this.element = element ;
+        this.ele$    = $(element) ;
+        this.args    = Plugin.args ;
+        this.hero$    = $.pg.hero$ ;
+        
+        this.mkSettings() ;      
+        this.init() ;
+    }
+    
+    Plugin.prototype =
+    {
+          mkSettings: function()
+        {
+            $.pg.log('3籌備套件物件設定') ;
+            //這裡的順序，越後面代表越重要。所以是以傳進來的參數為主
+            this.settings = $.extend({}, defaults, $.pg.defaults, this.args[0]) ;    
+        }
+        , init: function()
+        {
+            $.pg.log('4套件物件初始化') ;
+            var self = this ;
+
+            self.bindEvent() ;
+        }
+        
+        , bindEvent: function()
+        {
+            $.pg.log('5套件物件事件綁定') ;
+            var self = this ;
+            
+            $(window)
+                .on('mousemove', function(e)
+                {
+                    var x = e.clientX ;
+                    var y = e.clientY ;
+                    
+                    self.hero$
+                        .css(
+                        {
+                            top: y+40,
+                            left: x+40
+                        })
+                        .text(x+', '+y) ; 
+                }) ;
+            self.hero$.show() ;
+                
+        }
+    }
+    
+    $.fn[pluginName] = function() {   
+        //處裡套件全域設定
+        Plugin.args = Array.prototype.slice.call(arguments) ;
+     
+        return this.each(function() {
+            if (!$.data(this, 'plugin_' + pluginName)) {
+                $.data(this, 'plugin_' + pluginName, new Plugin(this));
+                //$(selector).pluginName(arguments obj) ;
+            }
+            else if ($.isFunction(Plugin.prototype[ Plugin.args[0] ]))
+            {
+                $.data(this, 'plugin_' + pluginName)[ Plugin.args[0] ]();  //吃參數
+                //$(selector).pluginName('method', arguments obj) ;
+            }
+            else
+            {
+                console.log('wrong way to use this method:' + Plugin.args[0]) ;
+            }
+        });
+    }
+    
+    $.pg.mkSettings = function()
+    {
+        $.pg.log('0籌備套件全域設定') ;
+        //這裡的順序，越後面代表越重要。所以是以傳進來的參數為主
+        $.pg.settings = $.extend({}, defaults, $.pg.defaults, $.pg.args[1]) ;     
+    }
+    
+    $.pg.init = function()
+    {
+        $.pg.log('1初始化') ;
+        $.pg.createHero() ;
+        $(document).ryLocation($.pg.args[1]) ;
+    }
+    
+    $.pg.createHero = function()
+    {
+        $.pg.log('2產生套件元素英雄') ;
+        $.pg.hero$ = $('<span />')
+            //set some would not be changed by settings or defaults
+            .css(
+            {
+                display: 'none',  //invisible is important.
+                position: 'absolute',
+                border: $.pg.settings['heroBorder'],
+                'background-color': $.pg.settings['heroBgColor'],
+                color: $.pg.settings['heroColor'],
+            })
+            .appendTo('body') ;
+    }
+    $.pg.log = function()
+    {
+        if ($[pluginName].defaults.testMode) 
+        {
+            console.log(arguments) ;
+        }
+
+    }
+    
+    $.pg.testMode = function(mode)
+    {
+        var _flag = true ;
+        if (mode === false)
+        {
+            _flag = false ;
+        }
+        $[pluginName].defaults.testMode = _flag ;
+        if (_flag) 
+        {
+            console.log('testMode is opened') ;
+        }
+    }      
+    
+})( jQuery, window, document );
+
 $(function()
 {
-    $('#btn1')
-        .click(function() 
-        {
-            console.time('儘量減少reflow') ;
-            var numLoop = 1000 ;
-            var _eleTb = $('#tb').html('') ;
-            var _strNode = '' ;
-            for (var i=1; i <= numLoop; i++)
-            {
-                _strNode += '<tr><td>'+ i +'</td></tr>' ;
-            }
-            $('#tb')
-                .append(_strNode) ;
-                
-            console.timeEnd('儘量減少reflow') ;
-
-        }) ;
-
-    $('#btn2')
-        .click(function() 
-        {
-            console.time('直接進行append') ;
-            var numLoop = 2000 ;
-            var _eleTb = $('#tb').html('') ;
-            for (var i=1000; i <= numLoop; i++)
-            {
-                $('#tb')
-                     .append('<tr><td>'+ i +'</td></tr>') ;
-            }
-            
-                
-            console.timeEnd('直接進行append') ;
-        }) ;
-        
+    $.ryLocation('init', 
+    {
+        heroBorder: '5px solid red',
+        heroBgColor: 'yellow',
+    }) ;
 }) ;
 </script>
-<input type="button" id="btn1" value="儘量減少reflow">
-<input type="button" id="btn2" value="直接進行append">
 
-<table id="tb" style="border:1px solid red;">
-</table>
+<span id="id1"  class="class1"  data-tooltip="文字<br>1 ">文字1 </span><br />
