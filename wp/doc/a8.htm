@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href="css/reset.css" rel="stylesheet" type="text/css">
+<link href="css/ryEcho.css" rel="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="js/function.js"></script>
+<script>
+;(function ( $, W, D, undefined ) {
+    var pg = 'ryEcho' ; //pluginName
+    $[pg] = function() 
+    {
+        $[pg].args = Array.prototype.slice.call(arguments) ; 
+        $[pg].mkSettings() ;
+        if ($.isFunction( $[pg][ $[pg].args[0] ] ))  //$.pluginName('fn name', arguments obj) ;
+        {
+            $[pg][ $[pg].args[0] ]() ;
+        }
+        else
+        {
+            $[pg].init() ;
+        }
+    } ;
+
+    
+    $[pg].defaults = 
+    {
+        testMode: false,
+        autoRm: true,
+        autoRmSec: 3,
+        theme: 'defaults',
+    } ;
+
+    //object default options
+    var defaults = 
+    {
+
+    }
+   
+    var innerSettings = (function()
+    {
+        return {
+              maskClass: 'ryEcho-mask'
+            , maskCss: {}
+            , containerClass: 'ryEcho-container'
+            , containerCss: {}
+            , widgetClass: 'ryEcho-widget rouncConer shadow'
+            , widgetCss: {}
+            , textWraperClass: 'ryEcho-textWraper'
+            , textWraperCss: {}        
+        } ;
+    }()) ;
+    
+    //演員名單
+    var actors = 
+    {
+          mask      : null
+        , container : null
+        , widget    : null
+        , textWraper: null
+    } ; 
+
+    function Plugin(element)
+    {  
+        this.element = element ;
+        this.ele$    = $(element) ;
+        this.args    = Plugin.args ;
+        
+        this.actors  = actors ;
+        
+        this.mkSettings() ;      
+        this.init() ;
+    }
+    
+    Plugin.prototype =
+    {
+          mkSettings: function()
+        {
+            var self = this ;
+            var themeBorderColor = null ;
+            
+            if ($[pg].settings.theme)
+            {
+                if ($[pg].settings.theme == 'blue') 
+                {
+                    themeBorderColor = '#50A5CE' ;
+                }
+                else if ($[pg].settings.theme == 'green') 
+                {          
+                    themeBorderColor = '#62B833' ;
+                }
+                else if ($[pg].settings.theme == 'yellow') 
+                {
+                    themeBorderColor = '#EDB45B' ;
+                }
+                else if ($[pg].settings.theme == 'red') 
+                {
+                    themeBorderColor = '#DE4444' ;
+                }
+                else 
+                {
+                    themeBorderColor = $[pg].settings.theme ;
+                }
+                
+                innerSettings.widgetCss.border = '3px solid '+themeBorderColor ;
+            }
+
+            self.settings = $.extend({}, defaults, $[pg].settings, self.args[0]) ;
+        }
+        , init: function()
+        {
+            $[pg].log('大初始') ;
+            var self = this ;
+            
+            self.mask() ;
+            self.maskResize() ;
+            self.echo() ;
+            self.putCenter() ;
+            self.bindEvent() ;            
+            
+        }
+        , mask: function()
+        {
+            $[pg].log('self.mask() ;') ;
+            var self = this ;
+ 
+            self.actors.mask = $('<div />')
+                .addClass(innerSettings.maskClass)
+                .appendTo('body') ;
+                
+        }
+        , maskResize: function()
+        {
+            $[pg].log('self.maskResize() ;') ;
+            var self = this ;
+            innerSettings.maskCss.width = $(window).outerWidth() ;
+            innerSettings.maskCss.height = $(document).outerHeight() ;          
+            self.actors.mask
+                .css(innerSettings.maskCss) ;              
+        }
+        , echo: function()
+        {
+            $[pg].log('self.echo() ;') ;
+            var self = this ;
+            self.actors.container = $('<div />')
+                .addClass(innerSettings.containerClass)
+                .css(innerSettings.containerCss)
+                
+            self.actors.widget = $('<div />')
+                .addClass(innerSettings.widgetClass)
+                .css(innerSettings.widgetCss)
+                .appendTo(self.actors.container) ;
+            
+            self.actors.textWraper = $('<span />')
+                .addClass(innerSettings.textWraperCss)
+                .html(self.settings.content)
+                .css(innerSettings.textWraperCss)
+                .appendTo(self.actors.widget) ;
+            
+            self.actors.container.appendTo('body') ;
+            
+        }
+        , putCenter: function()
+        {      
+            $[pg].log('self.putCenter() ;') ;
+            var self = this ;
+            var eleIn$ = self.actors.container ;
+            var eleOut$ = self.actors.mask ;
+            var positionOut = eleOut$.position() ;
+
+            var centerOut = 
+            {
+                  x: ( positionOut.left + (eleOut$.outerWidth() / 2) ) >> 0
+                , y: ( positionOut.top + (eleOut$.outerHeight() / 2) ) >> 0
+            } ;
+            var offsetIn = eleIn$.offset() ;
+
+            eleIn$
+                .css(
+                {
+                      left: ( centerOut.x - (eleIn$.outerWidth() / 2) ) >> 0
+                    //, top: ( centerOut.y - (eleIn$.outerHeight() / 2) ) >> 0
+                })
+                .fadeIn() ;
+        }
+        , bindEvent: function()
+        {
+            $[pg].log('self.bindEvent() ; ') ;
+            var self = this ;
+            $(window)
+                .resize(function()
+                {
+                    self.maskResize() ;
+                    self.putCenter() ;
+                }) ;
+            
+            //autoRm
+            if (self.settings.autoRm)
+            {          
+                setTimeout(function()
+                {
+                    self.gone() ;
+                }, (self.settings.autoRmSec)*800 ) ;
+            }
+            
+            //clickRm
+            if (self.settings.clickRm)
+            {          
+                self.actors.mask
+                    .on('click', function()
+                    {
+                        self.gone() ;
+                    }) ;
+            }
+        }
+        , gone: function()
+        {
+            var self = this ;
+            self.actors.mask.hide() ;
+            self.actors.container.fadeOut('fast') ;
+        }
+    }
+    
+    $.fn[pg] = function() {   
+        //處裡套件全域設定
+        Plugin.args = Array.prototype.slice.call(arguments) ;
+        return this.each(function() {
+            if (!$.data(this, 'plugin_' + pg)) {
+                $.data(this, 'plugin_' + pg, new Plugin(this));
+                //$(selector).pluginName(arguments obj) ;
+            }
+            else if ($.isFunction(Plugin.prototype[ Plugin.args[0] ]))
+            {
+                $.data(this, 'plugin_' + pg)[ Plugin.args[0] ]();  //吃參數
+                //$(selector).pluginName('method', arguments obj) ;
+            }
+            else
+            {
+                console.log('wrong way to use this method:' + Plugin.args[0]) ;
+            }
+        });
+    }
+    
+    $[pg].init = function()
+    {
+        $[pg].log('小初始') ;
+        $(document)[pg]() ;
+    }
+    
+    $[pg].mkSettings = function()
+    {
+        $[pg].log('0籌備套件全域設定') ;
+        //這裡的順序，越後面代表越重要。所以是以傳進來的參數為主
+        $[pg].settings = $.extend({}, defaults, $[pg].defaults, $[pg].args[0]) ;
+        
+    }    
+    $[pg].log = function()
+    {
+        if ($[pg].defaults.testMode) 
+        {
+            console.log(arguments) ;
+        }
+
+    }
+    
+    $[pg].testMode = function(mode)
+    {
+        var _flag = true ;
+        if (mode === false)
+        {
+            _flag = false ;
+        }
+        $[pg].defaults.testMode = _flag ;
+        if (_flag) 
+        {
+            console.log('testMode is opened') ;
+        }
+    }      
+    
+})( jQuery, window, document );
+
+$(function()
+{
+    var ele = '<div class="test">sdfasdfasdfasdfasdfasdfsdfasdfsf</div>' ;
+    
+    $.ryEcho(
+    {
+        content: ele,
+        autoRm: false,
+        autoRmSec: 5,
+        clickRm: false,
+        theme: 'purple'//green blue yellow red
+    }) ;
+}) ;
+</script>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
