@@ -1,0 +1,40 @@
+body, div, ul, ol, li, h1, h2, h3, h4, h5, h6, form, input, button,textarea, p, blockquote, th, td {
+	margin: 0;
+	padding: 0;
+}
+img {border: 0;}
+:focus {outline: 0;}
+h1, h2, h3, h4, h5, h6 {font-size: 100%;font-weight: normal;}
+input, button, textarea,select, optgroup, option {
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+}
+code, kbd, samp, tt {font-size: 100%;}
+ 
+/*purpose To enable resizing for IE */
+/*branch For IE6-Win, IE7-Win */
+input, button, textarea, select {*font-size: 100%;}
+body {line-height: 180%;}
+ol, ul, li {list-style: none;}
+:link, :visited , ins {text-decoration: none;}
+blockquote:before, blockquote:after,q:before, q:after {content: '';content: none;}
+ 
+/*HTML5 tag*/
+section, article, aside, footer, header, nav, main {
+	display:block;
+}
+
+/* round corner */
+.rouncConer {
+    -moz-border-radius: 10px; /* Firefox */  -webkit-border-radius: 10px; /* Safari, Chrome */  -khtml-border-radius: 10px; /* Konqueror */  border-radius: 10px; /* Opera 10.50 and later (CSS3 standard) */  behavior: url(border-radius.htc); /* IE6, IE7, IE8 */
+}
+
+.shadow {
+    -moz-box-shadow: 0px 15px 20px -10px rgba(0%,0%,0%, 1), inset 0px 0px 12px 0px rgba(0%,0%,0%, 1) ;    -webkit-box-shadow: 0px 15px 20px -10px rgba(0%,0%,0%, 1), inset 0px 0px 12px 0px rgba(0%,0%,0%, 1) ;    box-shadow: 0px 15px 20px -10px rgba(0%,0%,0%, 1), inset 0px 0px 12px 0px rgba(0%,0%,0%, 1) ;
+}
+
+.unblock {
+    display: none ;
+}

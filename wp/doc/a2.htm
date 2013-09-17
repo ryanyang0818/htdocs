@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href="css/reset.css" rel="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="js/function.js"></script>
+<script src="js/a1.js"></script>
+<script>
+;(function ( $, W, D, undefined ) {
+    var pluginName = 'ryTooltip' ;
+    
+    $.pg = $[pluginName] = function()
+    {     
+        if ($.isFunction( $.pg[arguments[0]] ))
+        {
+            $.pg[arguments[0]](arguments[1]) ;
+        }
+    }
+    
+    $.pg.defaults = 
+    {
+        testMode: false,
+        ttBorder: '1px solid red',  //tt means tooltop
+        ttBgColor: 'blue',
+        ttPadding: '8px',
+        ttColor: 'yellow',
+        ttClass: 'ryttClass',
+    } ;
+    
+    //object default options
+    var defaults = 
+    {
+
+    }
+
+    function Plugin(element, args)
+    {  
+        this.element = element ;
+        this.ele$    = $(element) ;
+        this.args    = args[0] ;
+        this.hero    = $.pg.hero ;
+        //這裡的順序，越後面代表越重要。所以是以傳進來的參數為主
+        this.settings = $.extend({}, defaults, $.pg.defaults, this.args) ;      
+        
+        this.init() ;
+    }
+    
+    Plugin.prototype =
+    {
+          init: function()
+        {
+            var self = this ;
+$.pg.log('套件真正init') ;        
+            self.hero
+                .addClass(self.settings.ttClass)  //
+                .html( self.ele$.attr('data-tooltip') ) ;
+            
+            self.bindEvent() ;
+        }
+        
+        , bindEvent: function()
+        {
+            var self = this ;
+            
+            self.ele$
+                .on('mouseenter', function(e)
+                {               
+                    self.hero
+                        .css(
+                        {
+/*
+        ttBorder: '1px solid red',  //tt means tooltop
+        ttBgColor: 'blue',
+        ttPadding: '8px',
+        ttColor: 'yellow',
+        ttClass: 'ryttClass',
+*/                          
+                            border: self.settings.ttBorder,
+                            'background-color': self.settings.ttBgColor,
+                            padding: self.settings.ttPadding,
+                            color: self.settings.ttColor,
+                            top: e.clientY,
+                            left: e.clientX,
+                        })
+                        .show() ;
+                })
+                .on('mouseleave', function()
+                {
+                    self.hero.hide() ;
+                }) ;
+        }
+    }
+    
+    $.fn[pluginName] = function() {
+        //處裡套件全域設定       
+        args = Array.prototype.slice.call(arguments) ;
+        return this.each(function() {
+            if (!$.data(this, 'plugin_' + pluginName)) {
+                $.data(this, 'plugin_' + pluginName, new Plugin(this, args));  //吃參數
+            }
+            else if ($.isFunction(Plugin.prototype[args[0]]))
+            {
+                $.data(this, 'plugin_' + pluginName)[args[0]](args[1]);  //吃參數
+            }
+            else
+            {
+                console.log('wrong way to use this method:' + args[0]) ;
+            }
+        });
+    }
+    
+    
+    $.pg.init = function()
+    {
+        $[pluginName].createHero() ;
+    }
+    
+    $.pg.createHero = function()
+    {
+        $.pg.hero = $('<span />')
+            //set some would not be changed by settings or defaults
+            .css(
+            {
+                display: 'none',  //invisible is important.
+                position: 'absolute',
+            })
+            .appendTo('body') ;
+    }
+    
+    $.pg.log = function()
+    {
+        if ($[pluginName].defaults.testMode) 
+        {
+            console.log(arguments) ;
+        }
+
+    }
+    
+    $.pg.testMode = function(mode)
+    {
+        var _flag = true ;
+        if (mode === false)
+        {
+            _flag = false ;
+        }
+        $[pluginName].defaults.testMode = _flag ;
+        if (_flag) 
+        {
+            console.log('testMode is opened') ;
+        }
+    }      
+    
+})( jQuery, window, document );
+
+$(function()
+{
+    $.ryTooltip('init') ;
+    $.ryTooltip('testMode') ;
+    $('#id1').ryTooltip() ;
+}) ;
+</script>
+
+<span id="id1"  class="class1"  data-tooltip="文字<br>1 ">文字1 </span><br />
