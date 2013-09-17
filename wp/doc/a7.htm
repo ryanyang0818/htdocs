@@ -110,24 +110,34 @@
             var self = this ;
             
             self.mask() ;
+            self.maskResize() ;
             self.echo() ;
+            self.putCenter() ;
             self.bindEvent() ;            
             
         }
         , mask: function()
         {
+            $[pg].log('self.mask() ;') ;
             var self = this ;
-            innerSettings.maskCss.width = $(document).outerWidth() ;
-            innerSettings.maskCss.height = $(document).outerHeight() ;
-            
+ 
             self.actors.mask = $('<div />')
                 .addClass(innerSettings.maskClass)
-                .css(innerSettings.maskCss)
                 .appendTo('body') ;
                 
         }
+        , maskResize: function()
+        {
+            $[pg].log('self.maskResize() ;') ;
+            var self = this ;
+            innerSettings.maskCss.width = $(window).outerWidth() ;
+            innerSettings.maskCss.height = $(document).outerHeight() ;          
+            self.actors.mask
+                .css(innerSettings.maskCss) ;              
+        }
         , echo: function()
         {
+            $[pg].log('self.echo() ;') ;
             var self = this ;
             self.actors.container = $('<div />')
                 .addClass(innerSettings.containerClass)
@@ -140,15 +150,16 @@
             
             self.actors.textWraper = $('<span />')
                 .addClass(innerSettings.textWraperCss)
-                .text(self.settings.content)
+                .html(self.settings.content)
                 .css(innerSettings.textWraperCss)
                 .appendTo(self.actors.widget) ;
             
             self.actors.container.appendTo('body') ;
-            self.putCenter() ;
+            
         }
         , putCenter: function()
-        {
+        {      
+            $[pg].log('self.putCenter() ;') ;
             var self = this ;
             var eleIn$ = self.actors.container ;
             var eleOut$ = self.actors.mask ;
@@ -159,9 +170,8 @@
                   x: ( positionOut.left + (eleOut$.outerWidth() / 2) ) >> 0
                 , y: ( positionOut.top + (eleOut$.outerHeight() / 2) ) >> 0
             } ;
-            
             var offsetIn = eleIn$.offset() ;
-            
+
             eleIn$
                 .css(
                 {
@@ -171,7 +181,14 @@
         }
         , bindEvent: function()
         {
-
+            $[pg].log('self.bindEvent() ; ') ;
+            var self = this ;
+            $(window)
+                .resize(function()
+                {
+                    self.maskResize() ;
+                    self.putCenter() ;
+                }) ;
                 
         }
     }
@@ -236,9 +253,9 @@
 
 $(function()
 {
-    $.ryEcho({content: 'say something'}) ;
-console.log($(document).outerHeight()) ;    
-console.log($(document).outerWidth()) ;     
+    var ele = '<div class="test">abc</div>' ;
+    
+    $.ryEcho({content: ele}) ;    
 }) ;
 </script>
 <br>
