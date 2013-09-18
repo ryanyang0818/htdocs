@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href="css/reset.css" rel="stylesheet" type="text/css">
+<link href="css/ryEcho.css" rel="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="js/function.js"></script>
+<script>
+;(function ( $, W, D, undefined ) {
+    var pg      = 'ryMakeSquare' ;
+    var pgType  = 'troops' ;
+    var logOn   = true ;
+    
+    var _ = (function()
+    {
+        return {
+              init: (function()
+            {
+
+            })()
+            , log: function()
+            {
+                if (logOn)
+                {
+                    console.log(arguments) ;
+                }
+            }
+            , randomHex: function()
+            {
+                var _tmpStr = '#' ;
+                var _ary = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'] ;
+                for (var i=1; i<=6; i++)
+                {
+                    _tmpStr += (_ary[Math.floor( Math.random()*16 )]) ;
+                }
+                return _tmpStr ;            
+            }
+        } ;
+    })() ;
+    
+    $[pg] = function() 
+    {
+        $[pg].args = Array.prototype.slice.call(arguments) ; 
+        if ($[pg].args.length === 2)
+        {
+            if ($.isFunction( $[pg][ $[pg].args[0] ] ))  //$.pluginName('fn name', arguments obj) ;
+            {
+                $[pg].mkSettings($[pg].args[1]) ;
+                $[pg][ $[pg].args[0] ]() ;
+            }
+            else
+            {
+                _.log('wrong method: ' + $[pg].args[0]) ;
+            }
+        }
+        else if ($[pg].args.length === 1)
+        {
+            $[pg].mkSettings($[pg].args[0]) ;
+            $[pg].init() ;
+        }
+        else
+        {
+            _.log('wrong method: ' + $[pg].args[0]) ;
+        }
+    } ;
+    
+    $[pg].defaults = 
+    {
+        id: 0
+    } ;    
+    
+    //object default options
+    var defaults = 
+    {
+          width: '200px'
+        , height: '100px'
+    }
+   
+    var innerSettings = (function()
+    {
+        return {
+              heroIdPre: pg + '-hero-'
+            , heroClass: pg + '-class'
+        } ;
+    }()) ;
+console.log(innerSettings) ;
+    $[pg].init = function()
+    {
+        _.log('小初始，由於我們這個套件沒甚麼共用的元素，所以這裡比較簡單。') ;
+        $[pg].defaults.id++ ;
+        $(document)[pg]() ;
+    }
+    
+    $[pg].mkSettings = function(arg)
+    {
+        _.log('0籌備套件全域設定') ;
+        //這裡的順序，越後面代表越重要。所以是以傳進來的參數為主
+        $[pg].settings = $.extend({}, defaults, $[pg].defaults, arg) ;
+    }    
+    
+    //演員名單
+    var actors = 
+    {
+        hero: {}
+    } ; 
+
+    function Plugin(element)
+    {  
+        this.element = element ;
+        this.ele$    = $(element) ;
+        this.args    = Plugin.args ;
+        
+        this.actors  = actors ;
+        
+        this.mkSettings() ;      
+        this.init() ;
+    }
+    
+    Plugin.prototype =
+    {
+          mkSettings: function()
+        {
+            var self = this ;
+
+            self.settings = $.extend({}, defaults, $[pg].settings, self.args[0]) ;
+        }
+        , init: function()
+        {
+            _.log('大初始') ;
+            var self = this ;
+           
+            self.createSquare() ;
+        }
+        , createSquare: function()
+        {
+            var self = this ;
+            var tmpid = 'data-'+ pg +'-id' ;
+                       
+            self.actors.hero.class = innerSettings.heroClass ;
+            self.actors.hero.id = innerSettings.heroIdPre + $[pg].settings.id ;
+            
+            $('<div />')
+                .css({
+                      width: self.settings.width
+                    , height: self.settings.height
+                    , backgroundColor: _.randomHex() 
+                })
+                .attr(
+                {
+                      tmpid: self.settings.id
+                    , id: self.actors.hero.id
+                })
+                .addClass(self.actors.hero.class)
+                .html(self.settings.content)
+                .appendTo('body') ;
+            
+            self.bind() ;
+        }
+        , bind: function()
+        {
+            var self = this ;
+            
+            $('#'+self.actors.hero.id)        
+                .on('click', function()
+                {
+                    $(this).remove() ;
+                }) ;
+        }
+    }
+    
+    $.fn[pg] = function() 
+    {   
+        //處裡套件全域設定
+        Plugin.args = Array.prototype.slice.call(arguments) ;
+        return this.each(function() {
+            if (pgType === 'troops')
+            {
+                $.data(this, 'numPg', $[pg].defaults.id);
+                
+                if ($.isArray($.data(this, 'plugin_' + pg))  )
+                {
+                    $.data(this, 'plugin_' + pg).push( new Plugin(this) ) ;
+                }
+                else
+                {
+                    $.data(this, 'plugin_' + pg, [ new Plugin(this) ]) ;
+                }
+            }
+            else
+            {
+                if (!$.data(this, 'plugin_' + pg)) 
+                {
+                    $.data(this, 'plugin_' + pg, new Plugin(this));
+                }
+                else if ($.isFunction(Plugin.prototype[ Plugin.args[0] ]))
+                {
+                    $.data(this, 'plugin_' + pg)[ Plugin.args[0] ]();  //吃參數
+                }
+                else
+                {
+                    console.log('wrong way to use this method:' + Plugin.args[0]) ;
+                }            
+            }
+        });
+    }  
+})( jQuery, window, document );
+
+$(function()
+{
+    $.ryMakeSquare({content: 111}) ;
+    $.ryMakeSquare({content: 222}) ;
+    $.ryMakeSquare({content: 333}) ;
+    $.ryMakeSquare('method', {content: 333}) ;
+}) ;
+</script>

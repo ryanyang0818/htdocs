@@ -24,10 +24,18 @@
     
     $[pg].defaults = 
     {
-        testMode: false,
+        testMode: true,
         autoRm: true,
         autoRmSec: 3,
         theme: 'defaults',
+        beforeEcho: function()
+        {
+            $[pg].log('beforeEcho') ;
+        },
+        afterGone: function()
+        {
+            $[pg].log('afterGone') ;
+        },
     } ;
 
     //object default options
@@ -139,8 +147,15 @@
         }
         , echo: function()
         {
-            $[pg].log('self.echo() ;') ;
             var self = this ;
+            
+            if ($.isFunction( self.settings.beforeEcho ))
+            {
+                self.settings.beforeEcho() ;
+            }
+            
+            $[pg].log('self.echo() ;') ;
+            
             self.actors.container = $('<div />')
                 .addClass(innerSettings.containerClass)
                 .css(innerSettings.containerCss)
@@ -215,8 +230,20 @@
         , gone: function()
         {
             var self = this ;
-            self.actors.mask.hide() ;
-            self.actors.container.fadeOut('fast') ;
+            self.actors.mask.remove() ;
+            self.actors.container.fadeOut('fast', function()
+            {
+                self.actors.container.remove() ;
+                self.afterGone() ;
+            }) ;
+        }
+        , afterGone: function()
+        {
+            var self = this ;
+            if ($.isFunction( self.settings.afterGone ))
+            {
+                self.settings.afterGone() ;
+            }        
         }
     }
     
@@ -225,19 +252,7 @@
         //處裡套件全域設定
         Plugin.args = Array.prototype.slice.call(arguments) ;
         return this.each(function() {
-            if (!$.data(this, 'plugin_' + pg)) {
-                $.data(this, 'plugin_' + pg, new Plugin(this));
-                //$(selector).pluginName(arguments obj) ;
-            }
-            else if ($.isFunction(Plugin.prototype[ Plugin.args[0] ]))
-            {
-                $.data(this, 'plugin_' + pg)[ Plugin.args[0] ]();  //吃參數
-                //$(selector).pluginName('method', arguments obj) ;
-            }
-            else
-            {
-                console.log('wrong way to use this method:' + Plugin.args[0]) ;
-            }
+            new Plugin(this) ;
         });
     }
     
@@ -282,18 +297,22 @@
 
 $(function()
 {
-    var ele = '<div class="test">sdfasdfasdfasdfasdfasdfsdfasdfsf</div>' ;
-    
-    $.ryEcho(
-    {
-        content: ele,
-        autoRm: false,
-        autoRmSec: 5,
-        clickRm: false,
-        theme: 'purple'//green blue yellow red
-    }) ;
+    $('#btn')
+        .on('click', function()
+        {
+            $.ryEcho(
+            {
+                content: $('#input').val(),
+                autoRm: false,
+                autoRmSec: 5,
+                clickRm: true,
+                theme: 'purple', //green blue yellow red
+            }) ;
+        }) ;
 }) ;
 </script>
+<input id="input" value="">
+<input id="btn" type="button" value="button">
 <br>
 <br>
 <br>
