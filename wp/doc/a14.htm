@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href="css/reset.css" rel="stylesheet" type="text/css">
+<link href="css/ui-main.css" rel="stylesheet" type="text/css">
+<link href="css/btn.css" rel="stylesheet" type="text/css">
+<link href="css/ryEcho.css" rel="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+$(function()
+{
+		$('.ry-state-default').hover(
+			function(){ $(this).addClass('ry-state-hover'); }, 
+			function(){ $(this).removeClass('ry-state-hover'); }
+		);
+		$('.ry-state-default').click(function(){
+			$(this).toggleClass('ry-state-active');
+		});
+
+}) ;
+</script>
+<style>
+
+.ryDlog-widget {
+    padding: 15px ;
+    z-index: 1010 ;
+    border: 1px solid black ;
+    background-color: #FFF ;
+    margin-bottom: 30px ;
+}
+.ryEcho-textContainer
+{
+    word-wrap:break-word;
+}
+</style>
+<div class="ryDlog-widget">
+    <div class="ryDlog-top">
+        <div class="ryDlog-top-title">
+            hello world.
+        </div>
+        <div class="ryDlog-top-btn">
+            <div class="ry-state-default ry-corner-all" ><span class="ry-icon ry-icon-close"></span></div>
+            <div class="ry-state-default ry-corner-all" ><span class="ry-icon ry-icon-arrow-4"></span></div>
+            <div class="ry-state-default ry-corner-all" ><span class="ry-icon ry-icon-newwin"></span></div>
+            <div class="ry-state-default ry-corner-all" ><span class="ry-icon ry-icon-minus"></span>
+        </div>
+        
+    </div>
+    <div class="ryDlog-content">
+    </div>
+    <div class="ryDlog-footer">
+    </div>
+</div>
+
+
