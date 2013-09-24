@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href="css/reset.css" rel="stylesheet" type="text/css">
+<link href="css/sys.css" rel="stylesheet" type="text/css">
+<link href="css/ryDlog.css" rel="stylesheet" type="text/css">
+<link href="css/btn.css" rel="stylesheet" type="text/css">
+<link href="css/page.css" rel="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="js/function.js"></script>
+<script>
+$(function()
+{
+        $('.ry-state-default').hover(
+            function(){ $(this).addClass('ry-state-hover'); }, 
+            function(){ $(this).removeClass('ry-state-hover'); }
+        );
+        $('.ry-state-default').click(function(){
+            $(this).toggleClass('ry-state-active');
+        });
+
+}) ;
+
+;(function ( $, W, D, undefined ) {
+    var pg      = 'ryDlog' ;
+    var pgType  = 'troops' ;
+    var logOn   = true ;
+    
+    var _ = (function()
+    {
+        return {
+              init: (function()
+            {
+
+            })()
+            , log: function()
+            {
+                if (logOn)
+                {
+                    console.log(arguments) ;
+                }
+            }
+        } ;
+    })() ;
+    
+    $[pg] = function() 
+    {
+        $[pg].args = Array.prototype.slice.call(arguments) ; 
+        if ($[pg].args.length === 2)
+        {
+            if ($.isFunction( $[pg][ $[pg].args[0] ] ))  //$.pluginName('fn name', arguments obj) ;
+            {
+                $[pg].mkSettings($[pg].args[1]) ;
+                $[pg][ $[pg].args[0] ]() ;
+            }
+            else
+            {
+                _.log('wrong method: ' + $[pg].args[0]) ;
+            }
+        }
+        else if ($[pg].args.length === 1)
+        {
+            $[pg].mkSettings($[pg].args[0]) ;
+            $[pg].init() ;
+        }
+        else
+        {
+            _.log('wrong method: ' + $[pg].args[0]) ;
+        }
+    } ;
+    
+    $[pg].defaults = 
+    {
+          id: 0
+        , title: ''
+        , content: ''
+        , escRm: false
+        , rmCross: false
+    } ;    
+    
+    //object default options
+    var defaults = 
+    {
+
+    }
+/*
+
+
+                
+                
+                
+                
+            </div>
+        </div>
+        <div class="ryDlog-content">
+        content
+        </div>
+        <div class="ryDlog-footer rouncConer-bottom">
+        footer
+        </div>
+    </div>
+</div>
+*/
+    var innerSettings = (function()
+    {
+        return {
+              widgetClass   : 'ryDlog-widget'
+            , zoneClass     : 'ryDlog-zone rouncConer'
+            , topClass      : 'ryDlog-top rouncConer-top'
+            , titleClass    : 'ryDlog-top-title'
+            , btnClass      : 'ryDlog-top-btn'
+            , minuxBtn      : '<div class="ry-state-default ry-corner-all" ><span class="ry-icon ry-icon-minus"></span></div>'
+            , newwinBtn     : '<div class="ry-state-default ry-corner-all" ><span class="ry-icon ry-icon-newwin"></span></div>'
+            , arrow4Btn     : '<div class="ry-state-default ry-corner-all" ><span class="ry-icon ry-icon-arrow-4"></span></div>'
+            , closeBtn      : '<div class="ry-state-default ry-corner-all" ><span class="ry-icon ry-icon-close"></span></div>'
+            , contentClass  : 'ryDlog-content'
+            , footerClass   : 'ryDlog-footer rouncConer-bottom'
+            , Dlogtpl       : '<div class="{0}">'+
+                                    '<div class="{1}">'+
+                                        '<div class="{2}">'+
+                                            '<div class="{3}"></div>'+
+                                            '<div class="{4}"></div>'+
+                                        '</div>'+
+                                        '<div class="{5}"></div>'+
+                                        '<div class="{6}"></div>'+
+                                    '</div>'+
+                                '</div>'
+        } ;
+    }()) ;
+
+    $[pg].init = function()
+    {
+        _.log('小初始。') ;
+        $[pg].defaults.id++ ;
+        $(document)[pg]() ;
+    }
+    
+    $[pg].mkSettings = function(arg)
+    {
+        _.log('0籌備套件全域設定') ;
+        //這裡的順序，越後面代表越重要。所以是以傳進來的參數為主
+        $[pg].settings = $.extend({}, defaults, $[pg].defaults, arg) ;
+    }    
+    
+    //演員名單
+    var actors = 
+    {
+          hero: {} 
+    } ; 
+
+    function Plugin(element)
+    {  
+        this.element = element ;
+        this.ele$    = $(element) ;
+        this.args    = Plugin.args ;
+        
+        this.actors  = actors ;
+        
+        this.mkSettings() ;      
+        this.init() ;
+    }
+    
+    Plugin.prototype =
+    {
+          mkSettings: function()
+        {
+            var self = this ;
+
+            self.settings = $.extend({}, defaults, $[pg].settings, self.args[0]) ;
+        }
+        , init: function()
+        {
+            _.log('大初始') ;
+            var self = this ;
+            
+            self.createDlog() ;
+        }
+        , createDlog: function()
+        {
+            _.log('createDlog') ;
+            var self = this ;
+
+            $(
+                innerSettings.Dlogtpl
+                    .format(
+                          innerSettings.widgetClass
+                        , innerSettings.zoneClass
+                        , innerSettings.topClass
+                        , innerSettings.titleClass
+                        , innerSettings.btnClass
+                        , innerSettings.contentClass
+                        , innerSettings.footerClass
+                    )
+            )
+            .find('.' + innerSettings.widgetClass).addClass('rouncConer')
+            .end()
+            .find('.' + innerSettings.titleClass).text('safasdf')
+            .end()
+            .appendTo('body') ;
+            
+        }
+        , bind: function()
+        {
+            var self = this ;
+
+        }
+    }
+    
+    $.fn[pg] = function() 
+    {   
+        //處裡套件全域設定
+        Plugin.args = Array.prototype.slice.call(arguments) ;
+        return this.each(function() {
+            if (pgType === 'troops')
+            {
+                $.data(this, 'numPg', $[pg].defaults.id);
+                
+                if ($.isArray($.data(this, 'plugin_' + pg))  )
+                {
+                    $.data(this, 'plugin_' + pg).push( new Plugin(this) ) ;
+                }
+                else
+                {
+                    $.data(this, 'plugin_' + pg, [ new Plugin(this) ]) ;
+                }
+            }
+            else
+            {
+                if (!$.data(this, 'plugin_' + pg)) 
+                {
+                    $.data(this, 'plugin_' + pg, new Plugin(this));
+                }
+                else if ($.isFunction(Plugin.prototype[ Plugin.args[0] ]))
+                {
+                    $.data(this, 'plugin_' + pg)[ Plugin.args[0] ]();  //吃參數
+                }
+                else
+                {
+                    console.log('wrong way to use this method:' + Plugin.args[0]) ;
+                }            
+            }
+        });
+    }  
+})( jQuery, window, document );
+
+$(function()
+{
+    $.ryDlog(
+    {
+          content: 'hello world'
+        , title: '標題'
+    }) ;
+}) ;
+
+</script>
+<style>
+
+</style>

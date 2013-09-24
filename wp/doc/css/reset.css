@@ -16,7 +16,6 @@ code, kbd, samp, tt {font-size: 100%;}
 /*purpose To enable resizing for IE */
 /*branch For IE6-Win, IE7-Win */
 input, button, textarea, select {*font-size: 100%;}
-body {line-height: 180%;}
 ol, ul, li {list-style: none;}
 :link, :visited , ins {text-decoration: none;}
 blockquote:before, blockquote:after,q:before, q:after {content: '';content: none;}

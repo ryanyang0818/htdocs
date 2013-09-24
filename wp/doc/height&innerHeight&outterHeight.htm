@@ -1,0 +1,39 @@
+<meta charset="utf-8">
+<style>
+body {
+    margin: 0px ;
+    padding: 0px ;
+}
+div {
+    border: 10px solid red ;
+}
+#out {
+    margin: 5px ;
+    padding: 15px ;
+    height: 200px ;
+}
+#in {
+    margin: 5px ;
+    padding: 15px ;
+    height: 30px ;
+}
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>
+$(function()
+  {
+    var ele = $('#out') ;
+    console.log(ele.height()) ;
+    console.log(ele.innerHeight()) ;
+    console.log(ele.outerHeight()) ;
+    console.log(ele.outerHeight(true)) ;
+  }) ;
+</script>
+<div id="out">
+    HI
+    <div id="in">
+        HI, AGAIN.
+    </div>
+</div>
+

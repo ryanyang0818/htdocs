@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>iframe 測試</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<script>
+$(function()
+{
+    $(document)
+        .on('click', '#sbtn1', function()
+        {
+            return false ;
+            console.log('kid #sbtn1 clicked') ;
+        }) ;
+        
+    $('div')
+        .each(function()
+        {
+            var _d = $(this) ;
+            _d
+                .css(
+                {
+                      width: '200px'
+                    , height: '100px'
+                    , background: 'red'
+                    , margin: '30px'
+                    //, transform: 'matrix(0.9986295347545738, 0.05233595624294383, -0.05233595624294383, 0.9986295347545738, 0, 0)'
+                }) ;
+        })        
+}) ;
+</script>
+
+<form method="post" action="">
+	<input type="text" name="t1" id="t1" value="我是 iframe 中的輸入框" />
+	<input type="text" name="t2" id="t2" />
+	<input type="button" value="Click" id="sbtn1" />
+    <div></div>
+    <div></div>
+    <div></div>
+</form>
+Author: <a href="http://abgne.tw">http://abgne.tw</a>

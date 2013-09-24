@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body { font: 1.2em/1.5 "Droid Sans"; }
+#canvas1 { background: #333; }
+</style>
+<script>
+</script>
+</head>
+<body>
+<div id="canvasContent"><canvas id="canvas1" width="480" height="400"></canvas></div>
+<script>
+/**
+ *
+ * @param {Number} width 能显示的最大宽度
+ * @param {Number} height 能显示的最大高度
+ */
+var pony = function (width, height) {
+	this.canvas = null;             //用来存储画布
+	this.ctx = null;                //画布的 getContext
+	this.winWidth = width || 480;   //备用
+	this.winHeight = height || 400; //备用
+	this.balls = [];                //存放画布中的球对象
+	this.FPS = 60;                  //默认帧率
+	this.timer = null;              //计时器，这里用的简单的 setInterval
+	this.friction = 0.9;            //摩擦力影响
+	this.gravity = 10;              //重力影响
+};
+pony.prototype = {
+	$: function (id) {
+		return id ? document.getElementById(id) : null;
+	},
+	/**
+	 * 初始化画布
+	 * @param {String} id
+	 */
+	getCanvas: function (id) {
+		this.canvas = this.$(id);
+		if(this.canvas && this.canvas.getContext("2d")) {
+			this.ctx = this.canvas.getContext("2d");
+			//重置画布尺寸
+			this.canvas.setAttribute("width", this.winWidth);
+			this.canvas.setAttribute("height", this.winHeight);
+		} else {
+			this.canvas.innerHTML = "您的浏览器不支持 Canvas，请升级";
+		}
+	},
+	/**
+	 * 创建一定数量的球
+	 * @param {Number} num
+	 */
+	createBall: function (num) {
+		var number = num || 1;
+		for(var i = number; i--;) {
+			this.balls.push(new ball(5, 20, 1, this.winWidth, this.winHeight));
+		}
+	},
+	/**
+	 * 移动球，同时进行边界处理
+	 * 为了进行性能演示，所以只对一条边进行了碰撞处理，否则全框起来球放不下。当球飞出时直接删掉这个对象，同时生成一个新的球
+	 */
+	moveBall: function () {
+		var newx = 0;
+		var newy = 0;
+		for(var i = this.balls.length; i--;) {
+			this.balls[i].moveTime += 0.1;
+			newx = this.balls[i].x + this.balls[i].vx; //新的座标
+			newy = this.balls[i].y + this.balls[i].vy + 0.5 * this.gravity * this.balls[i].moveTime * this.balls[i].moveTime; //加入重力影响 h = 1/2 * gt^2
+			if(newx < 0 || newy < 0 || newx > this.winWidth || newy > this.winHeight) { //如果球飞出边
+				this.balls.splice(i, 1);
+				this.balls.push(new ball(5, 20, 1, this.winWidth, this.winHeight));  //不使用delete是為了不要留下undefined
+			} else {
+				this.balls[i].y = newy;
+				this.balls[i].x = newx;
+			}
+		}
+	},
+	/**
+	 * 绘制画布
+	 */
+	draw: function () {
+		this.ctx.clearRect(0, 0, this.winWidth, this.winHeight); //擦除画布
+		for(var i = this.balls.length; i--;) {
+			this.ctx.beginPath();
+			this.ctx.fillRect(this.balls[i].x, this.balls[i].y, 1, this.balls[i].radius);  //rect
+			//this.ctx.arc(this.balls[i].x, this.balls[i].y, this.balls[i].radius, 0, 2 * Math.PI, false);  //round
+            
+			this.ctx.fillStyle = "#CCC";  //顏色
+			this.ctx.fill();
+		}
+	},
+	/**
+	 * 更新画布
+	 */
+	update: function () {
+		this.moveBall();
+		this.draw();
+	},
+	/**
+	 * 运行，为了演示效果，这里不做跳帧处理
+	 */
+	run: function () {
+		var _this = this;
+		this.timer = setInterval(function () {
+			_this.update();
+		}, 1000 / this.FPS);
+	},
+	/**
+	 * 初始化
+	 * @param {Number} num
+	 */
+	init: function (num) {
+		this.createBall(num);
+		this.run();
+	}
+}
+
+/**
+ * 球
+ * @param {Number} minradius 最小半径
+ * @param {Number} maxradius 最大半径
+ * @param {Number} maxspeed 最大初始速度
+ * @param {Number} maxposx X 轴最大座标
+ * @param {Number} maxposy Y 轴最大座标
+ */
+var ball = function(minradius, maxradius, maxspeed, maxposx, maxposy) {
+//TODO 其实这也算是个粒子系统
+	this.x = Math.random() * maxposx >> 0;  //啟始位置
+	this.y = Math.random() * maxposy >> 0;  //啟始位置
+	this.vx = -2;  //x軸偏移量
+	this.vy = 1;  //y軸偏移量
+	this.radius = Math.random() * maxradius >> 0;
+	this.collide = false;
+	this.moveTime = 0;  //callback速度
+    
+    //設定最小的點
+	if(this.radius < minradius) {
+		this.radius = minradius;
+	}
+    //設定最小的速度
+	if(this.vy < 10) {
+		this.vy = 10;
+	}
+}
+
+var im = im || {};
+im.content = document.getElementById("canvasContent");  //畫布
+im.pony = new pony(im.content.clientWidth, im.content.clientHeight);
+im.pony.getCanvas("canvas1");
+
+if(im.pony.canvas) {
+	im.pony.init(500);  //雨滴數量
+}
+</script>
+</body>
+</html>

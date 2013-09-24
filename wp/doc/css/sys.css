@@ -1,0 +1,18 @@
+/* round corner */
+.rouncConer {    -moz-border-radius: 10px; /* Firefox */  -webkit-border-radius: 10px; /* Safari, Chrome */  -khtml-border-radius: 10px; /* Konqueror */  border-radius: 10px; /* Opera 10.50 and later (CSS3 standard) */  behavior: url(border-radius.htc); /* IE6, IE7, IE8 */}
+
+.rouncConer-top {-webkit-border-top-left-radius: 10px;-webkit-border-top-right-radius: 10px;-moz-border-radius-topleft: 10px;-moz-border-radius-topright: 10px;border-top-left-radius: 10px;border-top-right-radius: 10px;}
+
+.rouncConer-bottom {-webkit-border-bottom-right-radius: 10px;-webkit-border-bottom-left-radius: 10px;-moz-border-radius-bottomright: 10px;-moz-border-radius-bottomleft: 10px;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;}
+
+.rouncConer-left {-webkit-border-top-left-radius: 10px;-webkit-border-bottom-left-radius: 10px;-moz-border-radius-topleft: 10px;-moz-border-radius-bottomleft: 10px;border-top-left-radius: 10px;border-bottom-left-radius: 10px;}
+
+.rouncConer-right {-webkit-border-top-right-radius: 10px;-webkit-border-bottom-right-radius: 10px;-moz-border-radius-topright: 10px;-moz-border-radius-bottomright: 10px;border-top-right-radius: 10px;border-bottom-right-radius: 10px;}
+
+.shadow {
+    -moz-box-shadow: 0px 15px 20px -10px rgba(0%,0%,0%, 1), inset 0px 0px 12px 0px rgba(0%,0%,0%, 1) ;    -webkit-box-shadow: 0px 15px 20px -10px rgba(0%,0%,0%, 1), inset 0px 0px 12px 0px rgba(0%,0%,0%, 1) ;    box-shadow: 0px 15px 20px -10px rgba(0%,0%,0%, 1), inset 0px 0px 12px 0px rgba(0%,0%,0%, 1) ;
+}
+
+.unblock {
+    display: none ;
+}

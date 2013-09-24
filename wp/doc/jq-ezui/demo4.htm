@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="themes/icon.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.easyui.min.js"></script>
+</head>
+<pre>
+表頭選單。
+*.那個外框，只是css，跟class無關。
+*. 先介紹三個超像的東西
+    easyui-linkbutton    : 加上data-options="plain:true" 就變成一個沒有子選單的廢物。
+                            還是可以加上iconCls加上小圖。
+    easyui-splitbutton   : 注意到，data-options有一個menu屬性，可以加上子選單。
+    easyui-menubutton    : 只是圖片跟文字差了一個 | ，北爛。
+    
+*.提子選單之前，有一點不得不說，寬度似乎都不能設百分比。
+*.〈div class="menu-sep"〉〈/div〉用來當作畫分隔線。
+*.非常驚奇，子表單的階層似乎沒有限制喔~    
+*.menu-content，如果子階層裡面放的是一整個div，div的class加上這個值。    
+    
+    
+</pre>
+<div style="padding:5px;border:1px solid #ddd;">
+	<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">Home</a>
+	<a href="#" class="easyui-splitbutton" data-options="menu:'#mm1',iconCls:'icon-edit'">Edit</a>
+	<a href="#" class="easyui-splitbutton" data-options="menu:'#mm2',iconCls:'icon-ok'">Ok</a>
+	<a href="#" class="easyui-menubutton" data-options="menu:'#mm3',iconCls:'icon-help'">Help</a>
+</div>
+
+<div id="mm1" style="width:150px;">
+	<div data-options="iconCls:'icon-undo'">Undo</div>
+	<div data-options="iconCls:'icon-redo'">Redo</div>
+	<div class="menu-sep"></div>
+	<div>Cut</div>
+	<div>Copy</div>
+	<div>Paste</div>
+	<div class="menu-sep"></div>
+	<div>
+		<span>Toolbar</span>
+		<div style="width:150px;">
+			<div>Address</div>
+			<div>Link</div>
+			<div>Navigation Toolbar</div>
+			<div>Bookmark Toolbar</div>
+			<div class="menu-sep"></div>
+			<div>New Toolbar...</div>
+			<div>
+                <span>Toolbar</span>
+                <div style="width:150px;">
+                    <div>Address</div>
+                    <div>Link</div>
+                    <div>Navigation Toolbar</div>
+                    <div>Bookmark Toolbar</div>
+                    <div class="menu-sep"></div>
+                    <div>New Toolbar...</div>
+                </div>            
+            </div>
+		</div>
+	</div>
+	<div data-options="iconCls:'icon-remove'">Delete</div>
+	<div>Select All</div>
+</div>
+    
+<div id="mm2" style="width:100px;">
+	<div data-options="iconCls:'icon-ok'">Ok</div>
+	<div data-options="iconCls:'icon-cancel'">Cancel</div>
+</div>
+<div id="mm3" style="width:150px;">
+	<div>Help</div>
+	<div>Update</div>
+	<div>
+		<span>About</span>
+		<div class="menu-content" style="padding:10px;text-align:left">
+			<img src="http://www.jeasyui.com/images/logo1.png" style="width:150px;height:50px">
+			<p style="font-size:14px;color:#444">Try jQuery EasyUI to build your modem, interactive, javascript applications.</p>
+		</div>
+	</div>
+</div>    
+    
+<h1 style="text-align:center;">jQ-ezUI</h1>
+<ul id="ul">
+    <li><a href="index.htm">回首頁</a></li>
+</ul>

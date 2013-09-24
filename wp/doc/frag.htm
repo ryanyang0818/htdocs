@@ -1,0 +1,29 @@
+<meta charset="utf-8">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>
+$(function()
+  {
+      console.time('t1') ;
+      var _tb = $('#t1') ;
+      for (var i=0; i<1000; i++)
+      {
+          var _tr = $('<tr><td>'+ i +'</td></tr>')
+            .appendTo(_tb) ;   
+      }
+      console.timeEnd('t1')
+      
+      console.time('t2') ;
+      var _tb = $('#t2') ;
+      var _strNode = '' ;
+      for (var i=0; i<1000; i++)
+      {
+          _strNode += '<tr><td>'+ i +'</td></tr>' ;
+      }
+      _tb.append($(_strNode)) ;
+      console.timeEnd('t2') ;      
+  }) ;
+</script>
+hi
+<table id="t1"></table>
+<table id="t2"></table>

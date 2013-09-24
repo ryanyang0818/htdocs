@@ -1,0 +1,174 @@
+<meta charset="utf-8">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+
+
+$(function()
+{
+    var _judge = function(id, val)
+    {
+        _strTmp = '<span style="color:green;">' + val + '</span><br>' ;
+        _strPass = '通過' ;
+        _strNotPass = '不通過' ;
+        if (val)
+        {
+            _strTmp += ('<span>' + id+'，if('+id+')的檢測'+_strPass+'，判定true' + '</span></br>') ;
+        }
+        else
+        {
+            _strTmp += ('<span>' + id+'，if('+id+')的檢測'+_strNotPass+'，判定false' + '</span></br>') ;
+        }
+        
+        if (val == true)
+        {
+            _strTmp += ('<span>' + id+'，if('+id+' == true)的檢測'+_strPass+'，判定true' + '</span></br>') ;
+        }
+        else
+        {
+            _strTmp += ('<span>' + id+'，if('+id+' == true)的檢測'+_strNotPass+'，判定false' + '</span></br>') ;
+        }        
+        
+        if (val === true)
+        {
+            _strTmp += ('<span>' + id+'，if('+id+' === true)的檢測'+_strPass+'，判定true' + '</span></br>') ;
+        }
+        else
+        {
+            _strTmp += ('<span>' + id+'，if('+id+' === true)的檢測'+_strNotPass+'，判定false' + '</span></br>') ;
+        }        
+        
+        if (!!val === true)
+        {
+            _strTmp += ('<span>' + id+'，if(!!'+id+' === true)的檢測'+_strPass+'，判定true' + '</span></br>') ;
+        }
+        else
+        {
+            _strTmp += ('<span>' + id+'，if(!!'+id+' === true)的檢測'+_strNotPass+'，判定false' + '</span></br>') ;
+        }          
+        
+        _strTmp += '<hr>' ;
+
+        $(_strTmp)
+            .appendTo('#rs1') ;
+    }    
+
+    var q1 = undefined;
+    var q2 = null;
+    var q3 = [];
+    var q4 = {};
+    var q5 = 0;
+    var q6 = 1;
+    var q7 = 999;
+    var q8 = "";
+    var q9 = "hello";
+    var q10 = false;
+    var q11 = true;
+    var q12 = new Boolean("true");
+    var q13 = new Boolean("false");
+    var q14 = new Number(0);
+    var q15 = new Number(1);
+ 
+    $(document)
+        .on('click', '#examBtn', function()
+        {
+            $('#rs1').html('') ;
+            
+            $('.testNode').each(function()
+            {
+                var _id = $(this).attr('id') ;
+                var _val = eval( _id ) ;
+                _judge(_id, _val) ;
+            
+            }) ;
+            
+            $('#rs2').show() ;
+        })
+        .on('_SHOW', function()
+        {
+            $('#rs2').hide() ;
+        })
+        .trigger('_SHOW') ;
+}) ;
+</script>
+<h1>心血來潮，探討javascript true or false的問題。</h1>
+
+<span class="testNode" id="q1"  style="color:blue;">var q1 = undefined;            </span> <span class="ansNode">我猜(false)</span>  </br>
+<span class="testNode" id="q2"  style="color:blue;">var q2 = null;                 </span> <span class="ansNode">我猜(false)</span>  </br>
+<span class="testNode" id="q3"  style="color:blue;">var q3 = [];                   </span> <span class="ansNode">我猜(true) </span> </br>
+<span class="testNode" id="q4"  style="color:blue;">var q4 = {};                   </span> <span class="ansNode">我猜(true) </span> </br>
+<span class="testNode" id="q5"  style="color:blue;">var q5 = 0;                    </span> <span class="ansNode">我猜(false)</span>  </br>
+<span class="testNode" id="q6"  style="color:blue;">var q6 = 1;                    </span> <span class="ansNode">我猜(true) </span> </br>
+<span class="testNode" id="q7"  style="color:blue;">var q7 = 999;                  </span> <span class="ansNode">我猜(true) </span> </br>
+<span class="testNode" id="q8"  style="color:blue;">var q8 = "";                   </span> <span class="ansNode">我猜(false)</span>  </br>
+<span class="testNode" id="q9"  style="color:blue;">var q9 = "hello";              </span> <span class="ansNode">我猜(true) </span> </br>
+<span class="testNode" id="q10" style="color:blue;">var q10 = false;               </span> <span class="ansNode">我猜(false)</span>  </br>
+<span class="testNode" id="q11" style="color:blue;">var q11 = true;                </span> <span class="ansNode">我猜(true) </span> </br>
+<span class="testNode" id="q12" style="color:blue;">var q12 = new Boolean("true"); </span> <span class="ansNode">我猜(true) </span> </br>
+<span class="testNode" id="q13" style="color:blue;">var q13 = new Boolean("false");</span> <span class="ansNode">我猜(false)</span>  </br>
+<span class="testNode" id="q14" style="color:blue;">var q14 = new Number(0);       </span> <span class="ansNode">我猜(false)</span>  </br>
+<span class="testNode" id="q15" style="color:blue;">var q15 = new Number(1);       </span> <span class="ansNode">我猜(true) </span> </br>
+
+<input id="examBtn" type="button" value="按下按鈕，依序顯示執行的結果。" />
+<input id="closeBtn" type="button" value="關閉" onClick=" $('#rs1').html('') " />
+
+<div id="rs1"></div>
+<pre id="rs2" style="color:red;">
+首先在這邊有值得討論的點。
+
+var q3 = []; 我猜(true) 
+var q4 = {}; 我猜(true) 
+q3，if(q3)的檢測通過，判定true
+q3，if(q3 == true)的檢測不通過，判定false
+q3，if(q3 === true)的檢測不通過，判定false
+
+q4，if(q4)的檢測通過，判定true
+q4，if(q4 == true)的檢測不通過，判定false
+q4，if(q4 === true)的檢測不通過，判定false
+
+可以看到，粗略判斷有可能造成誤判。
+基本還是要利用 === 來進行true or false的判斷。
+<hr>
+接下來，在數字的判斷，也有分歧的結果出現。
+var q6 = 1; 我猜(true) 
+var q7 = 999; 我猜(true) 
+
+q6，if(q6)的檢測通過，判定true
+q6，if(q6 == true)的檢測通過，判定true
+q6，if(q6 === true)的檢測不通過，判定false
+q7，if(q7)的檢測通過，判定true
+q7，if(q7 == true)的檢測不通過，判定false
+q7，if(q7 === true)的檢測不通過，判定false
+
+假定我們習慣使用 == 來判斷。
+那在上面我們判斷陣列或是物件的時候是false
+但是，在判斷1的時候，居然判斷成true。
+然後判斷999( 999 == true )的時候，則又判斷成false
+所以如果我們以為1以上的數字都會判定成true，那就大錯特錯了。
+所以，一定要強調，用===來判斷才是最安全的。
+<hr>
+q12-q15  可能會有人有疑問。
+為什麼new Boolean("false"); 這樣會判定 true
+因為，是物件阿。當然true
+所以String啊、Boolean。要避免用建構子來建立。
+很莫名其妙。
+<hr>
+最後介紹一個大絕招 -> !!
+搭配溫開水使用，滿讚的。
+只要放在變數前面，管你是物件還是陣列。
+通通變成boolean值。然後跟 === 一起使用。
+<del>就好像性無能的人在蓋棉被純聊天</del>
+程式寫起來，根本沒有懷疑的空間啊。
+
+<hr>
+<span style="color:orange">
+最後加上!!發現，跟if(Q)的效果...
+完全一樣。
+感覺不會再愛了。
+感覺要避免使用 == true、=== true
+如果用了，前面最後增加!!避免疑慮。
+但因為用了if (!!Q === true)的效果跟if (Q) 一樣!!
+所以我覺得...
+寫這篇對我的智商，有負面的影響。
+</span>
+
+</pre>

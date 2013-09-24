@@ -1,0 +1,45 @@
+<meta charset="utf-8">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>
+	// THIS IS WHERE THE MAGIC HAPPENS
+		$(function() {
+			$('a').click(function(e) {
+                alert(1)
+				href = $(this).attr("href");
+				
+				loadContent(href);
+				
+				// HISTORY.PUSHSTATE
+                if (history.pushState) alert('hello') ;
+                if (undefined) alert(9) ;
+                if ('undefined') alert(2) ;
+				history.pushState('', 'New URL: '+href, href);
+				e.preventDefault();
+
+			});
+			
+			// THIS EVENT MAKES SURE THAT THE BACK/FORWARD BUTTONS WORK AS WELL
+			window.onpopstate = function(event) {
+                alert(999) ;
+				$("#loading").show();
+				console.log("pathname: "+location.pathname);
+				loadContent(location.pathname) ;
+			};
+ 
+		});
+	
+		function loadContent(url){
+
+		}
+		
+	</script>
+
+<a href="/wp/doc/pushState.htm">pushState</a>
+<ul id="">
+    <li><a class="text" href="?q=link1">Link1</a></li>
+    <li><a class="text" href="?q=link2">Link2</a></li>
+    <li><a class="text" href="?q=link3">Link3</a></li>
+    <li><a class="text" href="?q=link4">Link4</a></li>
+</ul>
+<div id="content"></div>

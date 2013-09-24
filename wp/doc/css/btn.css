@@ -85,6 +85,7 @@
 
 
 .ry-state-default {
+    display: inline-block;
     background:url('images/ry-state-default.png') 50% 50% repeat-x;
     width:24px;
     height:24px;

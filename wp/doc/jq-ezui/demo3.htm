@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="themes/icon.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.easyui.min.js"></script>
+</head>
+
+<pre>
+*.巢狀的layout是有可能的，只是把另一個easyui-layout的div放進去而已。
+    但這裡的演示實際上是用了另外一個widget - easyui-propertygrid
+*.East的部分，easyui-propertygrid ，反正就是"屬性格"。
+    四個屬性higtlight出來。
+    url: 抓json的地方
+    showGroup:分類要不要顯示?
+    fit:自動判斷大小。
+    border:有無邊框。
+*.Main Title的部分region這個角色居然可以用href直接放網頁。感覺是jquery get在做事情，不確定。
+*.No collapse的部分只是在  data-options加了設定:   collapsible:false
+</pre>
+
+<div class="easyui-layout" style="width:700px;height:350px;">
+	<div data-options="region:'north'" style="height:50px"></div>
+	<div data-options="region:'south',split:true" style="height:50px;"></div>
+	<div data-options="region:'east',split:true,title:'East',collapsible:false" style="width:250px;">
+		<table id="tt" class="easyui-propertygrid"
+				data-options="
+					url: 'demo/layout/propertygrid_data1.json',
+					showGroup: true,
+					fit: true,
+					border: false
+				">
+		</table>
+	</div>
+	<div data-options="region:'center',title:'Main Title',iconCls:'icon-ok',href:'demo/layout/_content.html'" style="padding:10px">
+	</div>
+</div>
+
+
+    
+    
+<h1 style="text-align:center;">jQ-ezUI</h1>
+<ul id="ul">
+    <li><a href="index.htm">回首頁</a></li>
+</ul>

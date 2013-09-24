@@ -1,0 +1,18 @@
+<meta charset="utf-8">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+$(function()
+{
+    var t = $.ajax(
+    {
+          url: 'ajax.php?_callback=abc&'+new Date()
+        , dataType: 'jsonp'
+        ,jsonpCallback
+    }) ;
+    t.done(function(data)
+    {
+        console.log(9) ;
+        //console.log(data) ;
+    }) ;
+}) ;
+</script>

@@ -1,0 +1,40 @@
+<meta charset="utf-8">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>
+$(function()
+{
+    $(document)
+        .on('click', '.text', function(e)
+        {
+            e.preventDefault() ;
+            
+            var _url = $(this).attr('href') ;
+            
+            history.pushState(_url, '', _url) ;
+            
+            getContent(_url) ;
+        })
+     
+    $(window)
+        .on('popstate', function()
+        {
+            var _query = location.pathname ;
+            
+            getContent(_query) ;
+        }) ;
+        
+    function getContent(str)
+    {
+        $('#content').text(str) ;
+    }
+}) ;
+</script>
+<a href="/wp/doc/pushState.htm">pushState</a>
+<ul id="">
+    <li><a class="text" href="/wp/doc/link1">Link1</a></li>
+    <li><a class="text" href="/wp/doc/link2">Link2</a></li>
+    <li><a class="text" href="/wp/doc/link3">Link3</a></li>
+    <li><a class="text" href="/wp/doc/link4">Link4</a></li>
+</ul>
+<div id="content"></div>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="themes/icon.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.easyui.min.js"></script>
+</head>
+<script>
+$(function()
+{
+    $('#complex_table')
+        .datagrid(
+        {
+              singleSelect:true                         //一次只能選 1 row
+            , collapsible:true                          //可否縮陽入腹
+            , url:'demo/datagrid/datagrid_data1.json'   //抓資料
+            , iconCls: 'icon-save'
+        }) ;
+}) ;
+</script>
+<pre>
+
+</pre>
+<table id="complex_table" class="" title="Basic DataGrid" style="width:700px;height:250px"
+		data-options="">
+	<thead>
+		<tr>
+			<th data-options="field:'itemid',width:80">Item ID</th>
+			<th data-options="field:'productid',width:100">Product</th>
+			<th data-options="field:'listprice',width:80,align:'right'">List Price</th>
+			<th data-options="field:'unitcost',width:80,align:'right'">Unit Cost</th>
+			<th data-options="field:'attr1',width:250">Attribute</th>
+			<th data-options="field:'status',width:60,align:'center'">Status</th>
+		</tr>
+	</thead>
+</table>
+
+    
+    
+<h1 style="text-align:center;">jQ-ezUI</h1>
+<ul id="ul">
+    <li><a href="index.htm">回首頁</a></li>
+</ul>

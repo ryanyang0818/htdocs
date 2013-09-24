@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>基本layout</title>
+	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="themes/icon.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.easyui.min.js"></script>
+</head>
+<body>
+<pre>
+下面是一個基本Layout
+*.要製作layout的div，要加上class:"easyui-layout"。
+*.easyui-layout外寬框的css，height屬性不能百分比來設定。
+*.region是存在於easyui-layout之內的一種角色關係。
+    共有north、south、east、weat、center五種角色。
+    其中高度，寬度要去設定。不然會很多地方怪怪的，title也會沒出來。
+*.大多的屬性都能夠在data-options裡面藉由逗點區隔來一一設定。
+*.split:true 可以讓邊線可以被使用者自行調整。
+*.title的部分，可以藉由data-options去設定，也可以設定原生的title。
+*.藉由iconCls，可以直接插入小圖示。比較可惜的是，這裡的設定，並非直接連結檔名。不直覺。
+<a href="demo2.htm">icons列表</a>
+</pre>
+<div class="easyui-layout" style="width:100%;height:500px;">
+	<div data-options="region:'north',split:true"" style="height:50px"></div>
+	<div data-options="region:'south',split:true" style="height:50px;"></div>
+	<div data-options="region:'east',split:true,title:'East'" style="width:180px;">abc</div>
+	<div data-options="region:'west',split:true" title="West" style="width:100px;"></div>
+	<div data-options="region:'center',title:'Main Title',iconCls:'icon-ok'">
+    center content
+	</div>
+</div>
+    
+    
+<h1 style="text-align:center;">jQ-ezUI</h1>
+<ul id="ul">
+    <li><a href="index.htm">回首頁</a></li>
+</ul>
+</body>

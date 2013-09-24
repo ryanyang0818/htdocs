@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="themes/icon.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.easyui.min.js"></script>
+</head>
+<pre style="color:red;">
+*.dialog是用$('#dlg').dialog('open')來開啟的。
+    window則是用$('#w').window('open')來開啟。
+
+*.  data-options 加上  closed:true 就不會自動開啟。加上modal:true 就會加上薄薄的"mask"
+</pre>
+
+<h2>Basic Dialog</h2>
+<div class="demo-info">
+	<div class="demo-tip icon-tip"></div>
+	<div>Click below button to open or close dialog.</div>
+</div>
+<div style="margin:10px 0;">
+	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('.easyui-dialog').dialog('open')">Open</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('.easyui-dialog').dialog('close')">Close</a>
+</div>
+<div id="dlg" class="easyui-dialog" title="Basic Dialog" data-options="iconCls:'icon-save', closed:true" style="width:400px;height:200px;padding:10px">
+	The dialog content.
+</div>
+<hr>
+
+<h2>Basic Window</h2>
+<div class="demo-info">
+	<div class="demo-tip icon-tip"></div>
+	<div>Window can be dragged freely on screen.</div>
+</div>
+<div style="margin:10px 0;">
+	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#w').window('open')">Open</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#w').window('close')">Close</a>
+</div>
+<div id="w" class="easyui-window" title="Basic Window" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:500px;height:200px;padding:10px;">
+	The window content.
+</div>
+
+    
+<h1 style="text-align:center;">jQ-ezUI</h1>
+<ul id="ul">
+    <li><a href="index.htm">回首頁</a></li>
+</ul>

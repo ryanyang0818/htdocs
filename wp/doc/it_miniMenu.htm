@@ -1,0 +1,104 @@
+<meta charset="utf-8">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<style>
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+</style>
+<script>
+var testJson = 
+{
+    '選項一': '#' ,
+    '選項二': '#' ,
+    '選項三': '#'
+} ;
+
+;(function ( $, W, D, undefined ) {
+    var pluginName = 'it_miniMenu' ;
+    
+    $.fn[pluginName] = function(options)
+    {
+        var settings = $.extend(  
+        {
+        }, (options)?options : {}) ;
+        
+        var init = function(ele) 
+        {       
+            var ele$ = $(ele) ;
+           
+            ele$
+                .click(function(e)
+                {
+                    var this$ = $(this) ;
+                    var _offset = this$.offset() ;
+                    var locationX = _offset.left ;
+                    var locationY = _offset.top + this$.height() ;
+                    var jsonCode = this$.attr('data-miniMenu') ;                  
+                    
+                    var tpl =   '<div class="pgDiv">'+
+                                    '<ul class="pgUl">'+
+                                        // '<li class="pgLi"><a href="#">第一個表單</a></li>'+
+                                        // '<li class="pgLi"><a href="#">第二個表單</a></li>'+
+                                        // '<li class="pgLi"><a href="#">第三個表單</a></li>'+
+                                    '</ul>'+
+                                '</div>' ;
+               }) ;
+            // $(document)
+                // .on('click', this, function()
+                // {
+// console.log(this) ;               
+                // }) ;
+        }
+        
+        return this.each(function()
+        {
+            init(this) ;
+        }) ;
+    } ;
+    
+})( jQuery, window, document );
+
+$(function()
+{
+    $('#menuBtn').it_miniMenu() ;
+
+}) ;
+</script>
+<style>
+.pgDiv {
+    border: 1px solid green ;
+    padding: 5px ;
+    background: #90EE90 ;
+    float:left ;
+    position: absolute;
+}
+.pgUl {
+    border: 1px solid green ;
+}
+.pgLi a {
+    display:block ;
+    margin: 5px;
+    padding: 5px ;
+    background-color: white ;
+}
+.pgLi a:hover {
+    background: #8BCEE4 ;
+}
+</style>
+<br>
+<br>
+<br>
+<input type="button" id="menuBtn"  value="menuBtn" data-miniMenu="testJson"><br />
+<input type="button" id="menuBtn2" value="menuBtn2"><br />
+
+
+測試一下我們顯示出的表單
+<div class="pgDiv" style="top:150px;left:45px;">
+    <ul class="pgUl">
+        <li class="pgLi"><a href="#">第一個表單</a></li>
+        <li class="pgLi"><a href="#">第二個表單</a></li>
+        <li class="pgLi"><a href="#">第三個表單</a></li>
+    </ul>
+</div>

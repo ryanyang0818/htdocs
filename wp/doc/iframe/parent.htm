@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>iframe 測試</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<script>
+(function()
+{
+
+}) ;
+$(function()
+{
+    // if parent loaded, this move is too late.   
+    $('#iframe').load(function()
+    {
+        var _kid = $(this).contents() ;
+        
+        var spinId = 0 ;
+        var spinAry = {} ;
+
+        $(_kid)
+            .on('click', '*:not("body, document")', function(e)
+            {
+                e.preventDefault() ;
+                e.stopPropagation() ;
+                var _mySpinId = $(this).data('spinId') ;
+                
+                if (!_mySpinId) 
+                {
+                    ++spinId ;
+                    $(this).data('spinId', spinId) ;
+                    spinAry[spinId] = $(this) ;
+                }
+                else
+                {
+                    $(this).data('spinId', null) ;
+                    delete spinAry[_mySpinId] ;
+                }
+            }) ;
+            
+        var f1 = function()
+        {
+            for (var k in spinAry)
+            {
+                var _newDeg = (spinAry[k].data('deg') || 0) + 1 ;
+
+                spinAry[k]
+                    .css(
+                    {
+                          'background-color': _randomHex()
+                        , transform: 'rotate('+ _newDeg +'deg)'
+                    })
+                    .data('deg', _newDeg)
+            }
+        } ;
+        
+        var setivl1 = setInterval(f1, 20) ;
+    }) ;
+    
+    
+}) ;
+
+function _randomHex()
+{
+    var _tmpStr = '#' ;
+    var _ary = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'] ;
+    for (var i=1; i<=6; i++)
+    {
+        _tmpStr += (_ary[Math.floor( Math.random()*16 )]) ;
+    }
+    return _tmpStr ;
+}
+</script>
+
+<div id="parentDiv">
+    <span>hello, see!</span>
+<!--     <iframe id="iframe" src="kid.htm" width="100%" height="900">不支援iframe<iframe> -->
+    <iframe id="iframe" src="ry.url.tw/wp/doc/frag.htm" width="100%" height="900">不支援iframe<iframe>
+</div>

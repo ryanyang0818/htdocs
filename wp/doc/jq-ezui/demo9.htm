@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="themes/icon.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.easyui.min.js"></script>
+</head>
+<script>
+$(function()
+{
+    $('#dd').tooltip({
+        hideEvent: 'none',
+        content: function(){
+            return $('#toolbar');
+        },
+        onShow: function(){
+            var t = $(this);
+            t.tooltip('tip').focus().unbind().bind('blur',function(){
+                t.tooltip('hide');
+            });
+        }    
+    })
+}) ;
+</script>
+
+<pre>
+1. Chris教學，data-options裡面的東西可以如下呈現。
+$('#dd').tooltip({
+    hideEvent: 'none',
+    content: function(){
+        return $('#toolbar') ;
+    },
+    onShow: function(){
+        var t = $(this) ;
+        t.tooltip('tip').focus().unbind().bind('blur',function(){
+            t.tooltip('hide') ;
+        });
+    }    
+})
+</pre>
+
+<div style="padding:10px 200px">
+	<p><a id="dd" href="javascript:void(0)" class="" data-options="">Hover me</a> to display toolbar.</p>
+</div>
+<div style="display:none">
+	<div id="toolbar">
+		<a id="aa" href="#" class="easyui-linkbutton easyui-tooltip" title="Add" data-options="iconCls:'icon-add',plain:true"></a>
+		<a href="#" class="easyui-linkbutton easyui-tooltip" title="Cut" data-options="iconCls:'icon-cut',plain:true"></a>
+		<a href="#" class="easyui-linkbutton easyui-tooltip" title="Remove" data-options="iconCls:'icon-remove',plain:true"></a>
+		<a href="#" class="easyui-linkbutton easyui-tooltip" title="Undo" data-options="iconCls:'icon-undo',plain:true"></a>
+		<a href="#" class="easyui-linkbutton easyui-tooltip" title="Redo" data-options="iconCls:'icon-redo',plain:true"></a>
+	</div>
+</div>
+
+<h1 style="text-align:center;">jQ-ezUI</h1>
+<ul id="ul">
+    <li><a href="index.htm">回首頁</a></li>
+</ul>
+

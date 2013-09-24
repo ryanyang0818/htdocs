@@ -1,0 +1,98 @@
+<meta charset="utf-8">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<style>
+* {
+    padding: 0px ;
+    margin: 0px ;
+}
+</style>
+<script>
+$(function()
+{
+    //default arguments
+    var Args = {} ;
+    Args.W = $('body').outerWidth() ;
+    Args.H = $('body').outerHeight() ;
+    Args.bMaxRds = 10 ;
+    Args.bMinRds = 5 ;
+    Args.speed = 5 ;
+    Args.fps = 3 ;
+    
+console.log(Args) ;    
+    //canvas setting
+    Args.cvs = $('#canvas')
+        .css(
+        {
+            'background-color': '#333333',
+            width: Args.W,
+            height: Args.H,
+        }) ;
+
+    function Ball(bMaxRds, bMinRds, speed, W, H)
+    {
+    //TODO 其实这也算是个粒子系统
+        this.x = Math.random() * W >> 0;  //啟始位置
+        this.y = Math.random() * H >> 0;  //啟始位置
+
+        this.radius = Math.random() * bMaxRds >> 0;
+
+        this.moveTime = speed ;  //callback速度
+        
+        //設定最小的點
+        if(this.radius < bMinRds) {
+            this.radius = bMinRds;
+        }
+    }
+        
+    function Rain()
+    {
+        this.balls = [] ;
+        this.fps = Args.fps ;
+        this.timer = null ;
+        this.cvsCont = Args.cvs.get(0).getContext("2d") ;
+    }
+    
+    Rain.prototype.init = function(num)
+    {
+        this.createBalls(num) ;
+        this.run() ;
+    }
+
+    Rain.prototype.createBalls = function(num)
+    {
+console.log('createBalls') ;
+        for(var i=0; i<num; i++)
+        {
+            this.balls[i] = new Ball(Args.bMaxRds, Args.bMinRd, Args.speed,Args.W ,Args.H) ; 
+        }
+console.log(this.balls) ;        
+    }
+    
+    Rain.prototype.run = function()
+    {
+console.log('run') ;
+        var _self = this ;
+        this.timer = setInterval(function()
+        //this.timer = setTimeout(function()
+        {
+            //draw
+            _self.cvsCont.clearRect(0, 0, Args.W, Args.H);  //clean this canvas content
+            
+            $.each(_self.balls, function(idx)
+            {
+console.log( _self.balls[idx].x, _self.balls[idx].y, 5, 0, 2 * Math.PI, false ) ;         
+                _self.cvsCont.beginPath();
+                //this.ctx.fillRect(this.balls[i].x, this.balls[i].y, 1, this.balls[i].radius);  //rect
+                _self.cvsCont.arc(_self.balls[idx].x, _self.balls[idx].y, _self.balls[idx].radius, 0, 2 * Math.PI, false);  //round
+                _self.cvsCont.fillStyle = "#CCC";  //顏色
+                _self.cvsCont.fill();                
+            }) ;
+            
+        }, 1000 / this.fps) ;
+    }
+    
+    var rain = new Rain() ;
+    //rain.init(5) ;
+}) ;
+</script>
+<canvas id="canvas"></canvas>

@@ -1,0 +1,176 @@
+<meta charset="utf-8">
+<style>
+body {
+    margin: 0px ;
+    padding: 0px ;
+}
+
+#out {
+    margin: 5px ;
+    padding: 15px ;
+    height: 200px ;
+    width: 100px ;
+    border: 10px solid red ;
+}
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>
+$(function()
+  {
+    var _ele = $('#out') ;
+    var _eleOffset = _ele.offset() ;
+    console.log(_eleOffset) ;
+    _ele.html( _ele.text() + "left: " + _eleOffset.left + ", top: " + _eleOffset.top ) ;
+    
+    $('li.item-a').offsetParent().css('background-color', 'red');
+    
+    $(':button')
+        .click(function()
+        {
+            console.log($('body').offset()) ;
+            // var _self = $(this) ;
+            // 
+            // var _value = _self.val() ;
+            // var _offset = $('body').offset() ;
+            // 
+            // //console.log(self.offset()) ;
+            // //console.log(self.position()) ;
+            // //console.log( $(document).scroll(0, 50) ) ;
+            // //console.log($('body').position()) ;
+            // if (_value === 'goLeft10')
+            // {
+            //     _num = _offset.left-10 ;
+            //     console.log(_num) ;
+            //     $(document).scrollLeft( _num ) ;
+            // }
+            // else if (true)
+            // {
+            // }
+            // else if (true)
+            // {
+            // }
+            // else if (true)
+            // {
+            // 
+            // }            
+        }) ;
+        
+    $(document)
+        .mousemove(function(e)
+        {
+            //console.log(e.clientX) ;
+            //console.log(e.clientY) ;
+        }) ;
+  }) ;
+</script>
+<div id="out">
+    所以，offset的座標是排除margin，但包含border width.
+    和position()的差異在於
+    offset是絕對座標，position則是相對於父元素的座標。
+</div>
+<div style="clear:both;">&nbsp;</div>
+<hr>
+offsetParent 找到祖先，並過濾有定義位置的祖先。
+<ul class="level-1">
+  <li class="item-i">I</li>
+  <li class="item-ii" style="position: relative;">II
+    <ul class="level-2">
+      <li class="item-a">A，由我觸發offsetParent()</li>
+      <li class="item-b">B
+        <ul class="level-3">
+          <li class="item-1">1</li>
+          <li class="item-2">2</li>
+          <li class="item-3">3</li>
+        </ul>
+      </li>
+      <li class="item-c">C</li>
+    </ul>
+  </li>
+  <li class="item-iii">III</li>
+</ul>
+<hr>
+這裡要小心，scroll不過是一種event<br>
+<input type="button" value="goLeft10">
+<input type="button" value="goRight10">
+<input type="button" value="goDown10">
+<input type="button" value="goUp10">
+<br>
+<table nowrap style="border:1px solid black; width:120%;">
+<tr>
+<td>
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+測試文字不斷行怎麼樣
+</td>
+</tr>
+</table>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+往下捲到這附近
+<hr id="scrollTarget">
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>

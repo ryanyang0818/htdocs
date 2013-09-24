@@ -1,0 +1,180 @@
+<meta charset="utf-8">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<style>
+</style>
+<script>
+;(function ( $, window, document, undefined ) {
+    var pluginName = 'ryGetCss' ;
+    
+    $[pluginName] = function()
+    {
+        if ($.isFunction( Plugin['_'+arguments[0]] ))
+        {
+            Plugin['_'+arguments[0]](arguments[1]) ;
+        }        
+    }
+    
+    //global options
+    //can use '$.pluginName.defaults.someProperty' to set property
+    $[pluginName].defaults = 
+    {
+        testMode: false,
+    }
+    
+    //object default options
+    var defaults = 
+    {
+        classEle    : 'ryGetCssEle',
+        classDiv    : 'ryGetCssEle',
+        divColor    : 'blue',
+        divBorder   : '1px solid red',
+        divFontSize : '10px'
+    }
+
+    function Plugin(element, args)
+    {
+console.log(args) ;    
+        this.element = element ;
+        this.ele$    = $(element) ;
+        this.args    = args[0] ;
+
+        //這裡的順序，越後面代表越重要。所以是以傳進來的參數為主
+        this.settings = $.extend({}, defaults, $[pluginName].defaults, this.args) ;      
+        
+        Plugin._writeLog(this) ;
+        this.init() ;
+    }
+    
+    Plugin._testMode = function(mode)
+    {
+        var _flag = true ;
+        if (mode === false)
+        {
+            _flag = false ;
+        }
+        $[pluginName].defaults.testMode = _flag ;
+        if (_flag) 
+        {
+            console.log('testMode is opened') ;
+        }
+    }
+    
+    Plugin._writeLog = function(output)
+    {
+        if ($[pluginName].defaults.testMode) 
+        {
+            console.log(output) ;
+        }
+    }
+    
+    Plugin.prototype =
+    {
+    
+          init: function()
+        {        
+            Plugin._writeLog('init start') ;
+            this.ele$
+                .addClass(this.settings.classEle) ;
+            
+            this.bindEvent(this) ;
+        }
+        
+        , bindEvent: function(self)
+        {
+            Plugin._writeLog('bindEvent start') ;        
+            self.ele$
+                .on('click', function()
+                {
+                    self.createDiv(self) ;
+                }) ;
+        }
+        
+        , createDiv: function(self)
+        {
+            Plugin._writeLog('createDiv start') ;     
+            var _id    = self.ele$.attr('id') ;
+            var _class = self.ele$.attr('class') ;
+            var _text  = self.ele$.text() ;
+            
+            var _tmpDiv = $('<div />')
+                .attr('id', _id)
+                .addClass(self.settings.classEle)
+                .html('id:'+_id+'<br>'+'class:'+_class+'<br>'+'text:'+_text+'<br>')
+                .css(
+                {
+                    color       : self.settings.divColor,
+                    border      : self.settings.divBorder,
+                    'font-size' : self.settings.divFontSize
+                })
+                .appendTo('body') ;
+            
+            self.ele$.data(pluginName+'_'+'showDiv', _tmpDiv) ;
+            
+            if (self.settings.divRemove)
+            {    
+                self.divRemove(self.settings.divRmMSec)
+            }
+        }
+        
+        , divRemove: function(mSec)
+        {        
+            var self = this ;
+            setTimeout(function()
+            {
+console.log(self) ;            
+                self.ele$.data(pluginName+'_'+'showDiv').remove() ;
+            }, mSec) ;
+        }
+        
+        , divHide: function(mSec)
+        {
+            var self = this ;
+            setTimeout(function()
+            {
+                self.ele$.data(pluginName+'_'+'showDiv').hide() ;
+            }, mSec) ;
+        }    
+        
+        , divShow: function(mSec)
+        {
+            var self = this ;
+            setTimeout(function()
+            {
+                self.ele$.data(pluginName+'_'+'showDiv').show() ;
+            }, mSec) ;
+        }
+
+        , divStyle: function(objStyle)
+        {
+            var self = this ;
+            self.ele$.data(pluginName+'_'+'showDiv').css(objStyle) ;
+        }
+    }
+
+    $.fn[pluginName] = function() {
+        //處裡套件全域設定       
+        args = Array.prototype.slice.call(arguments) ;
+        return this.each(function() {
+            if (!$.data(this, 'plugin_' + pluginName)) {
+                $.data(this, 'plugin_' + pluginName, new Plugin(this, args));  //吃參數
+            }
+            else if ($.isFunction(Plugin.prototype[args[0]]))
+            {
+                $.data(this, 'plugin_' + pluginName)[args[0]](args[1]);  //吃參數
+            }
+            else
+            {
+                console.log('wrong way to use this method:' + args[0]) ;
+            }
+        });
+    }    
+    
+})( jQuery, window, document );
+
+$(function()
+{
+    $.ry_mask() ;
+    
+}) ;
+</script>
+<input type="button" id="maskBtn" vlaue="button">

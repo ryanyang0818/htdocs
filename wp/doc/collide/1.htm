@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body, button { font: 1.2em/1.5 "Droid Sans"; }
+#canvas1 { background: #333; }
+.notice { color: red; }
+</style>
+<script>
+</script>
+</head>
+<body>
+<div id="canvasContent"><canvas id="canvas1" width="480" height="400"></canvas></div>
+<p>
+	<button id="map">地图分块</button>
+	<button id="simple">简单遍历</button>
+	<button id="increase">加球</button>
+	<button id="decrease">减球</button>
+	<button id="renew">震球</button>
+	<button id="texture">不贴图</button>
+	<button id="pause">暂停</button>
+</p>
+<p>当前球的数量：<span id="ballsNumber" class="notice">0</span>，当前碰撞检测方法：<span id="collideMethod" class="notice"></span></p>
+</body>
+</html>
